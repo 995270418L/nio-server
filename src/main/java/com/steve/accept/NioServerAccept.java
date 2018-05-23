@@ -43,7 +43,7 @@ public class NioServerAccept implements Runnable {
             try {
                 SocketChannel socketChannel = serverSocketChannel.accept();
                 Socket socket = new Socket(socketChannel);
-
+                // 阻塞型put方法
                 this.inboundQueue.put(socket);
             } catch (IOException e) {
                 logger.severe("ServerSocketChannel 接受连接异常");

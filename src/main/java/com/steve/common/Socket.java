@@ -16,6 +16,8 @@ public class Socket {
     private long socketId;
 
     private final SocketChannel socketChannel;
+    private IMessageReader messageReader;
+    private IMessageWrite messageWrite;
 
     public Socket(SocketChannel socketChannel) {
         this.socketChannel = socketChannel;
@@ -26,7 +28,13 @@ public class Socket {
             return -1;
         }
         int byteRead = socketChannel.read(byteBuffer);
-        return byteRead;
+        int totalRead = byteRead;
+        while(byteRead > 0){
+            byteRead = socketChannel.read(byteBuffer);
+            totalRead += byteRead;
+        }
+
+        return totalRead;
     }
 
     public int write(ByteBuffer byteBuffer) throws IOException {
@@ -35,6 +43,34 @@ public class Socket {
         }
         int byteWrite = socketChannel.write(byteBuffer);
         return byteWrite;
+    }
+
+    public long getSocketId() {
+        return socketId;
+    }
+
+    public void setSocketId(long socketId) {
+        this.socketId = socketId;
+    }
+
+    public SocketChannel getSocketChannel() {
+        return socketChannel;
+    }
+
+    public IMessageReader getMessageReader() {
+        return messageReader;
+    }
+
+    public void setMessageReader(IMessageReader messageReader) {
+        this.messageReader = messageReader;
+    }
+
+    public IMessageWrite getMessageWrite() {
+        return messageWrite;
+    }
+
+    public void setMessageWrite(IMessageWrite messageWrite) {
+        this.messageWrite = messageWrite;
     }
 
 }
